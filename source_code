@@ -1,0 +1,150 @@
+#include <iostream>
+#include <stdlib.h>
+#include <cstdlib>
+#include <string>
+#include <iomanip>
+#include <conio.h>
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+char grader(int, int);
+void output(std::string, float, int, int);
+int U_Input(std::string, int);
+
+using namespace std;
+int i_Suplmnt;
+char i;
+string Data_Set[9][4] { {"English","0","150","20"},{"Islamiat","0","75","19"},{"Pakistan Studies","0","75","11"},{"Physics","0","150","20"},{"Biology","0","150","20"},{"Chemistry","0","150","18"} ,{"Mathematics","0","150","16"} ,{"Urdu","0","150","23"},{"Total","0","1050","22"} };
+
+
+int main() {
+	do {
+		char c_proof_read;
+		
+		system("CLS");
+		//Loop for input
+		verify:for (int i = 0;i<8;i++)
+		{
+				Data_Set[i][1] = to_string(U_Input(Data_Set[i][0], stoi(Data_Set[i][2])));
+		}
+	
+		//print out the Respective subject and its corresponding marks
+		for (i=0;i<8;i++)
+		{
+			cout << Data_Set[i][0] << " = " << Data_Set[i][1]<<endl;
+		}
+
+
+		cout << "Please confirm your marks, if correct press Y else press N\n";
+		cin >> c_proof_read;
+		switch (c_proof_read)
+		{
+		case 'y':
+		case 'Y':
+			break;
+		case 'n':
+		case 'N':
+			goto verify;
+			break;
+		default:
+			system("CLS");
+			cout << "Invalid Input\n";
+			goto verify;
+		}
+
+		cout << "Press any key to calculate results";
+		cin.ignore();
+		system("CLS");
+
+		cout << "Subject" << setw(20) << "total Marks" << setw(20) << "Marks Obtained" << setw(21) << "Percentage" << setw(20) << "Grade" << endl;
+
+		//marks table console printer
+		for (i=0;i<9;i++)
+		{	if (i==8)
+		{
+			cout << endl << endl;
+		}
+			output(Data_Set[i][0], stoi(Data_Set[i][2]), stoi(Data_Set[i][1]), stoi(Data_Set[i][3]));
+		}
+		
+
+	
+		if (i_Suplmnt == 0)
+		{
+			cout << setw(45) << "\nPASSED. No Need For Supplementry Exams" << endl;
+		}
+		else if (i_Suplmnt <= 2)
+		{
+			cout << "Can appear in Supplimentry Examination" << endl;
+		}
+		else
+		{
+			cout << "FAIL.Cannot Appear In Supplementry Exams"<<endl;
+		}
+		cout << "Press Y to start again or press any other to exit";
+		cin >> i;
+
+
+	} while (i == 'y' || i == 'Y');
+	return 0;
+}
+// function for calculating grade, input x are the acquired number which is received as user input later on, input y is the total marks
+
+char grader(int x, int y)
+
+
+{
+	char grade;
+	if ((x * 100) / y >= 50 && (x * 100) / y <= 60)
+	{
+		grade = 'E';
+	}
+	else if ((x * 100) / y >= 60 && (x * 100) / y <= 70)
+	{
+		grade = 'D';
+	}
+	else if ((x * 100) / y >= 70 && (x * 100) / y <= 80)
+	{
+		grade = 'C';
+	}
+	else if ((x * 100) / y >= 70 && (x * 100) / y <= 80)
+	{
+		grade = 'B';
+	}
+	else if ((x * 100) / y >= 80 && (x * 100) / y <= 100)
+	{
+		grade = 'A';
+	}
+	else
+	{
+		grade = 'F';
+		i_Suplmnt++;
+	}
+	
+	return grade;
+}
+//Output Printing function
+
+void output(string subject, float Mx_Marks, int Ob_Marks, int x) {
+	cout << subject << setw(x) << Mx_Marks << setw(20) << Ob_Marks << setw(20) << (Ob_Marks * 100) / Mx_Marks << "%" << setw(20) << grader(Ob_Marks, Mx_Marks) << endl;
+}
+//User Input Function
+
+int U_Input(string subject, int Mx_Marks) {
+	char cinput[10]; int marks;
+	cout << "Please input " << subject << " Marks"<<endl;
+E_input: cin >> cinput;
+	marks = atoi(cinput);
+
+	if (marks < 0 || marks > Mx_Marks)
+	{
+		cout << "Wrong Input\nInput marks between 0-" << Mx_Marks << endl;
+		goto E_input;
+	}
+
+	else
+		system("CLS");
+	Data_Set[8][1] = to_string(marks + stoi(Data_Set[8][1]));
+	cout << Data_Set[8][1];
+	_getch();
+	return marks;
+}
